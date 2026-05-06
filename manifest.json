@@ -1,0 +1,63 @@
+{
+  "name": "Social Drishti",
+  "short_name": "SocialDrishti",
+  "description": "Social Drishti — Looking Beyond The Obvious. Creative content, strategy & production.",
+  "start_url": "./index.html",
+  "id": "/socialdrishti/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui", "browser"],
+  "background_color": "#faf9f6",
+  "theme_color": "#F9AC1B",
+  "orientation": "portrait-primary",
+  "lang": "en-IN",
+  "scope": "./",
+  "categories": ["business", "marketing", "productivity"],
+  "icons": [
+    {
+      "src": "favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Contact Us",
+      "url": "./index.html#contact",
+      "description": "Get in touch with Social Drishti"
+    }
+  ]
+}
