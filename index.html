@@ -1,876 +1,1326 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Social Drishti</title>
-
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SLHBE80Q57"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-SLHBE80Q57');
-  </script>
-
-  <meta name="description" content="Social Drishti — Content strategy, video production and social media." />
-  <meta name="theme-color" content="#F9AC1B" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="Social Drishti" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="application-name" content="Social Drishti" />
-
-  <link rel="icon" type="image/x-icon" href="favicon.ico" />
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
-  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
-  <link rel="manifest" href="manifest.json" />
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --brand:       #F9AC1B;
-      --brand-dark:  #d9900e;
-      --brand-pale:  #fef4dc;
-      --border:      #ede9df;
-      --bg:          #faf9f6;
-      --card:        #ffffff;
-      --text:        #111111;
-      --muted:       #7a6a50;
-      --radius:      14px;
-      --shadow-sm:   0 2px 10px rgba(0,0,0,0.07);
-      --shadow-md:   0 6px 28px rgba(0,0,0,0.15);
-    }
-
-    html { -webkit-font-smoothing: antialiased; }
-
-    body {
-      background: var(--bg);
-      font-family: 'Inter', system-ui, sans-serif;
-      color: var(--text);
-      min-height: 100dvh;
-      padding-bottom: env(safe-area-inset-bottom, 0px);
-    }
-
-    /* ── Page shell ── */
-    .page {
-      display: flex;
-      flex-direction: column;
-      min-height: 100dvh;
-      padding-top: env(safe-area-inset-top, 0px);
-    }
-
-    /* ── Offline banner ── */
-    #offline-banner {
-      display: none;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      background: #333;
-      color: #fff;
-      font-size: 12px;
-      font-weight: 600;
-      padding: 6px 16px;
-      flex-shrink: 0;
-    }
-    #offline-banner.visible { display: flex; }
-
-    /* ── Install banner ── */
-    #install-banner {
-      display: none;
-      align-items: center;
-      gap: 10px;
-      background: var(--brand);
-      color: #111;
-      padding: 10px 14px;
-      flex-shrink: 0;
-      animation: slideDown 0.35s ease;
-    }
-    #install-banner.visible { display: flex; }
-    #install-banner .install-icon { width: 34px; height: 34px; border-radius: 8px; flex-shrink: 0; }
-    #install-banner .install-text { flex: 1; min-width: 0; }
-    #install-banner .install-text strong { font-size: 12.5px; font-weight: 700; display: block; font-family: 'Playfair Display', serif; }
-    #install-banner .install-text span  { font-size: 11px; opacity: 0.7; }
-    #install-banner .btn-install {
-      background: #111; color: #fff; border: none;
-      border-radius: 20px; padding: 6px 14px;
-      font-size: 12px; font-weight: 700; cursor: pointer;
-      flex-shrink: 0; font-family: 'Inter', sans-serif;
-    }
-    #install-banner .btn-dismiss {
-      background: transparent; border: none;
-      color: rgba(0,0,0,0.45); font-size: 20px; cursor: pointer; padding: 4px; flex-shrink: 0;
-    }
-
-    @keyframes slideDown {
-      from { transform: translateY(-100%); opacity: 0; }
-      to   { transform: translateY(0);     opacity: 1; }
-    }
-
-    /* ── Header ── */
-    .header {
-      position: sticky;
-      top: env(safe-area-inset-top, 0px);
-      z-index: 50;
-      display: flex;
-      align-items: center;
-      padding: 10px 16px;
-      border-bottom: 1px solid var(--border);
-      background: rgba(255,255,255,0.92);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      gap: 10px;
-    }
-    .brand-group {
-      display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0;
-    }
-    .brand-group img { height: 40px; width: auto; flex-shrink: 0; }
-    .brand-name {
-      font-family: 'Playfair Display', serif;
-      font-size: 18px; font-weight: 600; color: var(--text);
-      letter-spacing: 0.01em; line-height: 1; white-space: nowrap;
-    }
-    .header-actions { display: flex; gap: 8px; flex-shrink: 0; }
-    .btn-header {
-      width: 40px; height: 40px; border-radius: 50%;
-      background: var(--brand-pale);
-      border: 1.5px solid var(--border);
-      color: var(--brand-dark); font-size: 15px;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; flex-shrink: 0;
-      -webkit-tap-highlight-color: transparent;
-      transition: background 0.12s, transform 0.1s;
-    }
-    .btn-header:active { background: var(--brand); color: #111; transform: scale(0.92); }
-
-    /* ── Scrollable content ── */
-    .content {
-      flex: 1;
-      padding: 14px 14px 28px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    /* ── Section label ── */
-    .section-label {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      padding: 4px 2px 0;
-    }
-
-    /* ── PDF Big Buttons ── */
-    .pdf-buttons {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-
-    .pdf-btn {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 10px;
-      padding: 18px 16px;
-      background: var(--card);
-      border: 1.5px solid var(--brand);
-      border-radius: var(--radius);
-      text-decoration: none;
-      color: var(--text);
-      cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
-      box-shadow: var(--shadow-sm);
-      transition: background 0.12s, transform 0.1s, box-shadow 0.12s;
-      opacity: 0;
-      animation: cardIn 0.4s ease 0.04s forwards;
-    }
-    .pdf-btn:nth-child(2) { animation-delay: 0.09s; }
-    .pdf-btn:active {
-      background: var(--brand-pale);
-      transform: scale(0.97);
-      box-shadow: none;
-    }
-    .pdf-btn-icon {
-      width: 40px; height: 40px;
-      border-radius: 10px;
-      background: var(--brand-pale);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px;
-      color: var(--brand-dark);
-      flex-shrink: 0;
-    }
-    .pdf-btn-text { display: flex; flex-direction: column; gap: 3px; }
-    .pdf-btn-text strong { font-size: 13px; font-weight: 700; line-height: 1.25; }
-    .pdf-btn-text span   { font-size: 11px; color: var(--muted); font-weight: 500; }
-    .pdf-btn-arrow {
-      margin-top: auto;
-      align-self: flex-end;
-      font-size: 12px;
-      color: var(--brand-dark);
-      opacity: 0.7;
-    }
-
-    /* ── Divider ── */
-    .divider {
-      height: 1px;
-      background: var(--border);
-      margin: 2px 0;
-    }
-
-    /* ── Cards grid ── */
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-
-    .card {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 7px;
-      padding: 18px 10px;
-      background: var(--card);
-      border: 1.5px solid var(--border);
-      border-radius: var(--radius);
-      text-decoration: none;
-      color: var(--text);
-      cursor: pointer;
-      -webkit-tap-highlight-color: transparent;
-      box-shadow: var(--shadow-sm);
-      transition: background 0.12s, border-color 0.12s, transform 0.1s;
-      position: relative;
-      overflow: hidden;
-      opacity: 0;
-      animation: cardIn 0.4s ease forwards;
-    }
-    .card::before {
-      content: '';
-      position: absolute; inset: 0; border-radius: inherit;
-      background: linear-gradient(135deg, rgba(249,172,27,0.05) 0%, transparent 60%);
-      pointer-events: none;
-    }
-    .card:active { background: var(--brand-pale); border-color: var(--brand); transform: scale(0.97); box-shadow: none; }
-    .card i { font-size: 22px; color: var(--brand-dark); line-height: 1; }
-    .card-label { font-size: 12.5px; font-weight: 600; text-align: center; line-height: 1.3; }
-
-    .card-full { grid-column: 1 / -1; }
-
-    .card-filled {
-      background: linear-gradient(135deg, #F9AC1B 0%, #f0a010 100%);
-      border-color: transparent;
-      box-shadow: 0 4px 20px rgba(249,172,27,0.38);
-    }
-    .card-filled::before { background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 50%); }
-    .card-filled i, .card-filled .card-label { color: #111; }
-    .card-filled:active { background: var(--brand-dark); }
-
-    .card-outline {
-      background: transparent; border: 1.5px solid #111; box-shadow: none;
-    }
-    .card-outline i { color: #111; }
-    .card-outline:active { background: #111; border-color: #111; }
-    .card-outline:active i, .card-outline:active .card-label { color: #fff; }
-
-    /* stagger */
-    .card:nth-child(1) { animation-delay: 0.05s; }
-    .card:nth-child(2) { animation-delay: 0.10s; }
-    .card:nth-child(3) { animation-delay: 0.15s; }
-    .card:nth-child(4) { animation-delay: 0.20s; }
-    .card:nth-child(5) { animation-delay: 0.25s; }
-    .card:nth-child(6) { animation-delay: 0.30s; }
-    .card:nth-child(7) { animation-delay: 0.35s; }
-
-    @keyframes cardIn {
-      from { opacity: 0; transform: translateY(12px) scale(0.97); }
-      to   { opacity: 1; transform: translateY(0)    scale(1);    }
-    }
-
-    /* ── Video section ── */
-    .video-block {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      opacity: 0;
-      animation: cardIn 0.4s ease 0.4s forwards;
-    }
-
-    .video-card {
-      background: var(--card);
-      border: 1.5px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .video-card-label {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 13px 16px 11px;
-      border-bottom: 1px solid var(--border);
-    }
-    .video-card-label i    { font-size: 16px; color: var(--brand-dark); }
-    .video-card-label span { font-size: 13px; font-weight: 700; }
-
-    .video-wrap {
-      position: relative;
-      padding-top: 56.25%; /* 16:9 */
-      background: #111;
-    }
-    .video-wrap iframe {
-      position: absolute;
-      inset: 0; width: 100%; height: 100%; border: none;
-    }
-
-    /* ── Share bottom sheet ── */
-    #share-backdrop {
-      position: fixed; inset: 0;
-      background: rgba(0,0,0,0.45);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      z-index: 100;
-      opacity: 0; visibility: hidden;
-      transition: opacity 0.3s, visibility 0.3s;
-    }
-    #share-backdrop.open { opacity: 1; visibility: visible; }
-
-    #share-panel {
-      position: fixed; bottom: 0; left: 0; right: 0;
-      background: var(--card);
-      border-radius: 22px 22px 0 0;
-      padding: 0 20px calc(env(safe-area-inset-bottom, 0px) + 28px);
-      z-index: 101;
-      transform: translateY(100%);
-      transition: transform 0.38s cubic-bezier(0.34, 1.38, 0.64, 1);
-      box-shadow: 0 -8px 40px rgba(0,0,0,0.18);
-    }
-    #share-panel.open { transform: translateY(0); }
-
-    .panel-handle { width: 40px; height: 4px; background: var(--border); border-radius: 4px; margin: 14px auto 20px; }
-    .panel-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; }
-    .panel-title  { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 600; color: var(--text); }
-    .panel-close  {
-      width: 32px; height: 32px; border-radius: 50%;
-      background: var(--brand-pale); border: none;
-      color: var(--muted); font-size: 14px;
-      display: flex; align-items: center; justify-content: center; cursor: pointer;
-    }
-
-    .qr-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-bottom: 24px; }
-    .qr-frame {
-      width: 164px; height: 164px;
-      border: 2px solid var(--border); border-radius: 16px;
-      overflow: hidden; background: #fff; padding: 10px;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .qr-frame img { width: 100%; height: 100%; display: block; border-radius: 4px; }
-    .qr-label { font-size: 12.5px; color: var(--muted); font-weight: 500; }
-
-    .panel-divider {
-      display: flex; align-items: center; gap: 10px;
-      margin-bottom: 18px; color: var(--muted); font-size: 12px; font-weight: 500;
-    }
-    .panel-divider::before, .panel-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-
-    .share-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .share-btn {
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 8px; padding: 16px 10px;
-      border-radius: var(--radius); border: 1.5px solid var(--border); background: var(--card);
-      cursor: pointer; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 600; color: var(--text);
-      -webkit-tap-highlight-color: transparent; transition: background 0.12s, transform 0.1s; text-decoration: none;
-    }
-    .share-btn:active { transform: scale(0.96); background: var(--brand-pale); border-color: var(--brand); }
-    .share-btn i { font-size: 26px; }
-    .share-btn.whatsapp i { color: #25D366; }
-    .share-btn.native   i { color: var(--brand-dark); }
-
-    /* ── iOS hint ── */
-    #ios-hint {
-      display: none;
-      position: fixed;
-      bottom: calc(env(safe-area-inset-bottom, 0px) + 16px);
-      left: 12px; right: 12px;
-      background: #111; color: #fff;
-      border-radius: var(--radius); padding: 14px 40px 14px 16px;
-      font-size: 13px; line-height: 1.5; box-shadow: var(--shadow-md); z-index: 98;
-      animation: slideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-    #ios-hint.visible { display: block; }
-    #ios-hint .hint-close {
-      position: absolute; top: 10px; right: 12px;
-      background: none; border: none; color: rgba(255,255,255,0.6); font-size: 18px; cursor: pointer;
-    }
-
-    @keyframes slideUp {
-      from { transform: translateY(20px); opacity: 0; }
-      to   { transform: translateY(0);    opacity: 1; }
-    }
-
-    /* ── Scroll indicator ── */
-    .scroll-indicator {
-      position: fixed;
-      bottom: calc(env(safe-area-inset-bottom, 0px) + 18px);
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 40;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-      pointer-events: none;
-      transition: opacity 0.35s ease, transform 0.35s ease;
-    }
-    .scroll-indicator.hidden {
-      opacity: 0;
-      transform: translateX(-50%) translateY(8px);
-    }
-    .scroll-indicator-pill {
-      background: rgba(255,255,255,0.88);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid var(--border);
-      border-radius: 40px;
-      padding: 6px 14px 6px 12px;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.10);
-    }
-    .scroll-indicator-pill span {
-      font-size: 11.5px;
-      font-weight: 600;
-      color: var(--muted);
-      letter-spacing: 0.02em;
-    }
-    .scroll-chevrons {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0;
-    }
-    .scroll-chevrons i {
-      font-size: 9px;
-      color: var(--brand-dark);
-      line-height: 1.1;
-      animation: chevronBounce 1.6s ease-in-out infinite;
-    }
-    .scroll-chevrons i:nth-child(2) { animation-delay: 0.18s; opacity: 0.65; }
-    .scroll-chevrons i:nth-child(3) { animation-delay: 0.36s; opacity: 0.35; }
-    @keyframes chevronBounce {
-      0%, 100% { transform: translateY(0); }
-      50%       { transform: translateY(3px); }
-    }
-  </style>
-</head>
-<body>
-<div class="page">
-
-  <!-- Offline -->
-  <div id="offline-banner">
-    <i class="fa-solid fa-wifi-slash"></i>
-    You're offline — showing cached page
-  </div>
-
-  <!-- Install prompt -->
-  <div id="install-banner">
-    <img src="android-chrome-192x192.png" alt="" class="install-icon" />
-    <div class="install-text">
-      <strong>Social Drishti</strong>
-      <span>Add to Home Screen for quick access</span>
-    </div>
-    <button class="btn-install" id="btn-install-accept">Install</button>
-    <button class="btn-dismiss" id="btn-install-dismiss" aria-label="Dismiss">×</button>
-  </div>
-
-  <!-- Header -->
-  <div class="header">
-    <div class="brand-group">
-      <img src="sdlogo.svg" alt="Social Drishti" />
-      <span class="brand-name">Social Drishti</span>
-    </div>
-    <div class="header-actions">
-      <button class="btn-header" id="btn-save-contact-hdr" aria-label="Save to Contact" title="Save to Contact">
-        <i class="fa-solid fa-address-card"></i>
-      </button>
-      <button class="btn-header" id="btn-share-open" aria-label="Share" title="Share">
-        <i class="fa-solid fa-share-nodes"></i>
-      </button>
-    </div>
-  </div>
-
-  <!-- Scrollable content -->
-  <div class="content">
-
-    <!-- ── PDF Big Buttons ── -->
-    <span class="section-label">Downloads</span>
-    <div class="pdf-buttons">
-
-      <a class="pdf-btn" href="https://drive.google.com/file/d/1iHmJrvNOm9zbXcMy-46W1vj2iaMSWQqX/view?usp=drive_link" target="_blank" rel="noopener">
-        <div class="pdf-btn-icon"><i class="fa-solid fa-file-pdf"></i></div>
-        <div class="pdf-btn-text">
-          <strong>Our Portfolio</strong>
-          <span>Work &amp; case studies</span>
-        </div>
-        <i class="fa-solid fa-arrow-up-right-from-square pdf-btn-arrow"></i>
-      </a>
-
-      <a class="pdf-btn" href="https://drive.google.com/file/d/1Ype4g6yRIaMYNJC4ZXPIgJnLJzY1Lzcv/view?usp=drive_link" target="_blank" rel="noopener">
-        <div class="pdf-btn-icon"><i class="fa-solid fa-globe"></i></div>
-        <div class="pdf-btn-text">
-          <strong>Website Services</strong>
-          <span>Full breakdown deck</span>
-        </div>
-        <i class="fa-solid fa-arrow-up-right-from-square pdf-btn-arrow"></i>
-      </a>
-
-    </div>
-
-    <div class="divider"></div>
-
-    <!-- ── Contact cards grid ── -->
-    <div class="grid">
-
-      <!-- WhatsApp — full, gold filled -->
-      <a class="card card-full card-filled"
-         href="https://wa.me/919769699001?text=Hi%2C%20I%27d%20like%20to%20know%20more%20about%20Social%20Drishti"
-         target="_blank" rel="noopener">
-        <i class="fa-brands fa-whatsapp" style="font-size:26px;"></i>
-        <span class="card-label">WhatsApp Us</span>
-      </a>
-
-      <!-- Call -->
-      <a class="card" href="tel:+919769699001">
-        <i class="fa-solid fa-phone"></i>
-        <span class="card-label">Call Us</span>
-      </a>
-
-      <!-- Email -->
-      <a class="card" href="mailto:info@socialdrishti.com">
-        <i class="fa-solid fa-envelope"></i>
-        <span class="card-label">Email Us</span>
-      </a>
-
-      <!-- Instagram -->
-      <a class="card" href="https://www.instagram.com/socialdrishti/" target="_blank" rel="noopener">
-        <i class="fa-brands fa-instagram" style="color:#E1306C;"></i>
-        <span class="card-label">Instagram</span>
-      </a>
-
-      <!-- LinkedIn -->
-      <a class="card" href="https://www.linkedin.com/company/social-drishti/" target="_blank" rel="noopener">
-        <i class="fa-brands fa-linkedin" style="color:#0A66C2;"></i>
-        <span class="card-label">LinkedIn</span>
-      </a>
-
-      <!-- Save to Contact — full, outline -->
-      <button class="card card-full card-outline" id="btn-save-contact-card">
-        <i class="fa-solid fa-user-plus" style="font-size:22px;"></i>
-        <span class="card-label">Save to Contact</span>
-      </button>
-
-    </div>
-
-    <div class="divider"></div>
-
-    <!-- ── Embedded Videos ── -->
-    <span class="section-label">Watch</span>
-    <div class="video-block">
-
-      <!-- Showreel -->
-      <div class="video-card">
-        <!-- <div class="video-card-label">
-          <i class="fa-brands fa-youtube" style="color:#FF0000;"></i>
-          <span>Our Showreel</span>
-        </div> -->
-        <div class="video-wrap">
-          <!--
-            Replace VIDEO_ID_1 with your actual YouTube showreel video ID
-            e.g. src="https://www.youtube.com/embed/abc123?autoplay=1&mute=1&rel=0&modestbranding=1&playsinline=1"
-          -->
-          <iframe
-            src="https://www.youtube.com/embed/VIDEO_ID_1?autoplay=1&mute=1&rel=0&modestbranding=1&playsinline=1&loop=1&playlist=VIDEO_ID_1"
-            title="Social Drishti Showreel"
-            allow="autoplay; encrypted-media; picture-in-picture"
-            allowfullscreen
-            loading="lazy"
-          ></iframe>
-        </div>
-      </div>
-
-      <!-- Podcast & Shoot BTS -->
-      <div class="video-card">
-        <!-- <div class="video-card-label">
-          <i class="fa-solid fa-clapperboard"></i>
-          <span>Podcast &amp; Shoot BTS</span>
-        </div> -->
-        <div class="video-wrap">
-          <!--
-            Replace VIDEO_ID_2 with your actual YouTube BTS video ID
-          -->
-          <iframe
-            src="https://www.youtube.com/embed/VIDEO_ID_2?autoplay=1&mute=1&rel=0&modestbranding=1&playsinline=1&loop=1&playlist=VIDEO_ID_2"
-            title="Podcast & Shoot BTS"
-            allow="autoplay; encrypted-media; picture-in-picture"
-            allowfullscreen
-            loading="lazy"
-          ></iframe>
-        </div>
-      </div>
-
-    </div>
-
-  </div><!-- /.content -->
-</div><!-- /.page -->
-
-<!-- Scroll indicator -->
-<div class="scroll-indicator" id="scrollIndicator">
-  <div class="scroll-indicator-pill">
-    <div class="scroll-chevrons">
-      <i class="fa-solid fa-chevron-down"></i>
-      <i class="fa-solid fa-chevron-down"></i>
-      <i class="fa-solid fa-chevron-down"></i>
-    </div>
-    <span>Scroll for more</span>
-  </div>
-</div>
-
-<!-- ── Share bottom-sheet ── -->
-<div id="share-backdrop"></div>
-<div id="share-panel" role="dialog" aria-modal="true" aria-label="Share Social Drishti">
-  <div class="panel-handle"></div>
-  <div class="panel-header">
-    <span class="panel-title">Share Social Drishti</span>
-    <button class="panel-close" id="btn-share-close" aria-label="Close">
-      <i class="fa-solid fa-xmark"></i>
-    </button>
-  </div>
-
-  <div class="qr-wrap">
-    <div class="qr-frame">
-      <img
-        id="qr-img"
-        src=""
-        alt="QR code for this page"
-        width="144" height="144"
-      />
-    </div>
-    <span class="qr-label" id="qr-label">Scan to open this page</span>
-  </div>
-
-  <div class="panel-divider">or share via</div>
-
-  <div class="share-actions">
-    <a class="share-btn whatsapp" id="share-whatsapp"
-       href="#"
-       target="_blank" rel="noopener">
-      <i class="fa-brands fa-whatsapp"></i>
-      WhatsApp
-    </a>
-    <button class="share-btn native" id="btn-native-share">
-      <i class="fa-solid fa-share-from-square"></i>
-      <span>Share</span>
-    </button>
-  </div>
-</div>
-
-<!-- ── iOS hint ── -->
-<div id="ios-hint">
-  <button class="hint-close" id="btn-ios-close" aria-label="Close">×</button>
-  <strong style="font-family:'Playfair Display',serif; font-size:14px;">Install Social Drishti</strong>
-  <p style="margin-top:6px; opacity:0.85;">
-    Tap <strong>Share</strong> <i class="fa-solid fa-arrow-up-from-bracket"></i>
-    then <strong>"Add to Home Screen"</strong>.
-  </p>
-</div>
-
-<script>
-  /* ── Scroll indicator ── */
-  (function () {
-    const indicator = document.getElementById('scrollIndicator');
-    const content   = document.querySelector('.content');
-    if (!indicator || !content) return;
-
-    function checkScroll() {
-      const nearBottom = content.scrollTop + content.clientHeight >= content.scrollHeight - 40;
-      if (content.scrollTop > 30 || nearBottom) {
-        indicator.classList.add('hidden');
-      } else {
-        indicator.classList.remove('hidden');
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>Social Drishti</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-SLHBE80Q57"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
       }
-    }
+      gtag("js", new Date());
+      gtag("config", "G-SLHBE80Q57");
+    </script>
 
-    content.addEventListener('scroll', checkScroll, { passive: true });
-    // Also hide if page itself scrolls (fallback)
-    window.addEventListener('scroll', checkScroll, { passive: true });
-  })();
+    <meta
+      name="description"
+      content="Social Drishti — Content strategy, video production and social media."
+    />
+    <meta name="theme-color" content="#F9AC1B" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Social Drishti" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="Social Drishti" />
 
-  /* ── Service Worker ── */
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', async () => {
-      try {
-        // Remember if a SW was already controlling this page BEFORE registration.
-        // If not, this is a first-ever install — clients.claim() will fire
-        // controllerchange but we must NOT reload (nothing changed for the user).
-        const hadController = !!navigator.serviceWorker.controller;
-        const reg = await navigator.serviceWorker.register('./sw.js');
-        reg.addEventListener('updatefound', () => {
-          const nw = reg.installing;
-          nw.addEventListener('statechange', () => {
-            if (nw.state === 'installed' && navigator.serviceWorker.controller) {
-              nw.postMessage({ type: 'SKIP_WAITING' });
-            }
-          });
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <link rel="manifest" href="manifest.json" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --brand: #f9ac1b;
+        --brand-dark: #d9900e;
+        --brand-pale: #fef4dc;
+        --border: #ede9df;
+        --bg: #faf9f6;
+        --card: #ffffff;
+        --text: #111111;
+        --muted: #7a6a50;
+        --radius: 14px;
+        --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.07);
+        --shadow-md: 0 6px 28px rgba(0, 0, 0, 0.15);
+      }
+
+      html {
+        -webkit-font-smoothing: antialiased;
+      }
+
+      body {
+        background: var(--bg);
+        font-family: "Inter", system-ui, sans-serif;
+        color: var(--text);
+        min-height: 100dvh;
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+      }
+
+      /* ── Page shell ── */
+      .page {
+        display: flex;
+        flex-direction: column;
+        min-height: 100dvh;
+        padding-top: env(safe-area-inset-top, 0px);
+      }
+
+      /* ── Offline banner ── */
+      #offline-banner {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background: #333;
+        color: #fff;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 6px 16px;
+        flex-shrink: 0;
+      }
+      #offline-banner.visible {
+        display: flex;
+      }
+
+      /* ── Install banner ── */
+      #install-banner {
+        display: none;
+        align-items: center;
+        gap: 10px;
+        background: var(--brand);
+        color: #111;
+        padding: 10px 14px;
+        flex-shrink: 0;
+        animation: slideDown 0.35s ease;
+      }
+      #install-banner.visible {
+        display: flex;
+      }
+      #install-banner .install-icon {
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        flex-shrink: 0;
+      }
+      #install-banner .install-text {
+        flex: 1;
+        min-width: 0;
+      }
+      #install-banner .install-text strong {
+        font-size: 12.5px;
+        font-weight: 700;
+        display: block;
+        font-family: "Playfair Display", serif;
+      }
+      #install-banner .install-text span {
+        font-size: 11px;
+        opacity: 0.7;
+      }
+      #install-banner .btn-install {
+        background: #111;
+        color: #fff;
+        border: none;
+        border-radius: 20px;
+        padding: 6px 14px;
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        flex-shrink: 0;
+        font-family: "Inter", sans-serif;
+      }
+      #install-banner .btn-dismiss {
+        background: transparent;
+        border: none;
+        color: rgba(0, 0, 0, 0.45);
+        font-size: 20px;
+        cursor: pointer;
+        padding: 4px;
+        flex-shrink: 0;
+      }
+
+      @keyframes slideDown {
+        from {
+          transform: translateY(-100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      /* ── Header ── */
+      .header {
+        position: sticky;
+        top: env(safe-area-inset-top, 0px);
+        z-index: 50;
+        display: flex;
+        align-items: center;
+        padding: 10px 16px;
+        border-bottom: 1px solid var(--border);
+        background: rgba(255, 255, 255, 0.92);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        gap: 10px;
+      }
+      .brand-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex: 1;
+        min-width: 0;
+      }
+      .brand-group img {
+        height: 40px;
+        width: auto;
+        flex-shrink: 0;
+      }
+      .brand-name {
+        font-family: "Playfair Display", serif;
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--text);
+        letter-spacing: 0.01em;
+        line-height: 1;
+        white-space: nowrap;
+      }
+      .header-actions {
+        display: flex;
+        gap: 8px;
+        flex-shrink: 0;
+      }
+      .btn-header {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--brand-pale);
+        border: 1.5px solid var(--border);
+        color: var(--brand-dark);
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        flex-shrink: 0;
+        -webkit-tap-highlight-color: transparent;
+        transition:
+          background 0.12s,
+          transform 0.1s;
+      }
+      .btn-header:active {
+        background: var(--brand);
+        color: #111;
+        transform: scale(0.92);
+      }
+
+      /* ── Scrollable content ── */
+      .content {
+        flex: 1;
+        padding: 14px 14px 28px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      /* ── Section label ── */
+      .section-label {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted);
+        padding: 4px 2px 0;
+      }
+
+      /* ── PDF Big Buttons ── */
+      .pdf-buttons {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .pdf-btn {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 18px 16px;
+        background: var(--card);
+        border: 1.5px solid var(--brand);
+        border-radius: var(--radius);
+        text-decoration: none;
+        color: var(--text);
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+        box-shadow: var(--shadow-sm);
+        transition:
+          background 0.12s,
+          transform 0.1s,
+          box-shadow 0.12s;
+        opacity: 0;
+        animation: cardIn 0.4s ease 0.04s forwards;
+      }
+      .pdf-btn:nth-child(2) {
+        animation-delay: 0.09s;
+      }
+      .pdf-btn:active {
+        background: var(--brand-pale);
+        transform: scale(0.97);
+        box-shadow: none;
+      }
+      .pdf-btn-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        background: var(--brand-pale);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        color: var(--brand-dark);
+        flex-shrink: 0;
+      }
+      .pdf-btn-text {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+      }
+      .pdf-btn-text strong {
+        font-size: 13px;
+        font-weight: 700;
+        line-height: 1.25;
+      }
+      .pdf-btn-text span {
+        font-size: 11px;
+        color: var(--muted);
+        font-weight: 500;
+      }
+      .pdf-btn-arrow {
+        margin-top: auto;
+        align-self: flex-end;
+        font-size: 12px;
+        color: var(--brand-dark);
+        opacity: 0.7;
+      }
+
+      /* ── Divider ── */
+      .divider {
+        height: 1px;
+        background: var(--border);
+        margin: 2px 0;
+      }
+
+      /* ── Cards grid ── */
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        padding: 18px 10px;
+        background: var(--card);
+        border: 1.5px solid var(--border);
+        border-radius: var(--radius);
+        text-decoration: none;
+        color: var(--text);
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+        box-shadow: var(--shadow-sm);
+        transition:
+          background 0.12s,
+          border-color 0.12s,
+          transform 0.1s;
+        position: relative;
+        overflow: hidden;
+        opacity: 0;
+        animation: cardIn 0.4s ease forwards;
+      }
+      .card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background: linear-gradient(
+          135deg,
+          rgba(249, 172, 27, 0.05) 0%,
+          transparent 60%
+        );
+        pointer-events: none;
+      }
+      .card:active {
+        background: var(--brand-pale);
+        border-color: var(--brand);
+        transform: scale(0.97);
+        box-shadow: none;
+      }
+      .card i {
+        font-size: 22px;
+        color: var(--brand-dark);
+        line-height: 1;
+      }
+      .card-label {
+        font-size: 12.5px;
+        font-weight: 600;
+        text-align: center;
+        line-height: 1.3;
+      }
+
+      .card-full {
+        grid-column: 1 / -1;
+      }
+
+      .card-filled {
+        background: linear-gradient(135deg, #f9ac1b 0%, #f0a010 100%);
+        border-color: transparent;
+        box-shadow: 0 4px 20px rgba(249, 172, 27, 0.38);
+      }
+      .card-filled::before {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.15) 0%,
+          transparent 50%
+        );
+      }
+      .card-filled i,
+      .card-filled .card-label {
+        color: #111;
+      }
+      .card-filled:active {
+        background: var(--brand-dark);
+      }
+
+      .card-outline {
+        background: transparent;
+        border: 1.5px solid #111;
+        box-shadow: none;
+      }
+      .card-outline i {
+        color: #111;
+      }
+      .card-outline:active {
+        background: #111;
+        border-color: #111;
+      }
+      .card-outline:active i,
+      .card-outline:active .card-label {
+        color: #fff;
+      }
+
+      /* stagger */
+      .card:nth-child(1) {
+        animation-delay: 0.05s;
+      }
+      .card:nth-child(2) {
+        animation-delay: 0.1s;
+      }
+      .card:nth-child(3) {
+        animation-delay: 0.15s;
+      }
+      .card:nth-child(4) {
+        animation-delay: 0.2s;
+      }
+      .card:nth-child(5) {
+        animation-delay: 0.25s;
+      }
+      .card:nth-child(6) {
+        animation-delay: 0.3s;
+      }
+      .card:nth-child(7) {
+        animation-delay: 0.35s;
+      }
+
+      @keyframes cardIn {
+        from {
+          opacity: 0;
+          transform: translateY(12px) scale(0.97);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      /* ── Video section ── */
+      .video-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        opacity: 0;
+        animation: cardIn 0.4s ease 0.4s forwards;
+      }
+      /* Landscape spans full width on mobile */
+      .video-landscape {
+        grid-column: 1 / -1;
+      }
+
+      /* Desktop: 3 proportional columns — same visual height */
+      @media (min-width: 900px) {
+        .video-grid {
+          grid-template-columns: 9fr 12fr 16fr;
+          align-items: start;
+        }
+        .video-landscape {
+          grid-column: auto;
+        }
+      }
+
+      .video-card {
+        background: var(--card);
+        border: 1.5px solid var(--border);
+        border-radius: var(--radius);
+        overflow: hidden;
+        box-shadow: var(--shadow-sm);
+      }
+
+      .video-card-label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 14px 9px;
+        border-bottom: 1px solid var(--border);
+      }
+      .video-card-label i {
+        font-size: 14px;
+        color: var(--brand-dark);
+      }
+      .video-card-label span {
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.01em;
+      }
+
+      /* Aspect-ratio wrappers */
+      .video-wrap {
+        position: relative;
+        background: #111;
+      }
+      .video-wrap iframe {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
+      .video-portrait .video-wrap {
+        padding-top: 177.78%;
+      } /* 9:16  */
+      .video-services .video-wrap {
+        padding-top: 133.33%;
+      } /* 3:4   */
+      .video-landscape .video-wrap {
+        padding-top: 56.25%;
+      } /* 16:9  */
+
+      /* ── Share bottom sheet ── */
+      #share-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        z-index: 100;
+        opacity: 0;
+        visibility: hidden;
+        transition:
+          opacity 0.3s,
+          visibility 0.3s;
+      }
+      #share-backdrop.open {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      #share-panel {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: var(--card);
+        border-radius: 22px 22px 0 0;
+        padding: 0 20px calc(env(safe-area-inset-bottom, 0px) + 28px);
+        z-index: 101;
+        transform: translateY(100%);
+        transition: transform 0.38s cubic-bezier(0.34, 1.38, 0.64, 1);
+        box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.18);
+      }
+      #share-panel.open {
+        transform: translateY(0);
+      }
+
+      .panel-handle {
+        width: 40px;
+        height: 4px;
+        background: var(--border);
+        border-radius: 4px;
+        margin: 14px auto 20px;
+      }
+      .panel-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 22px;
+      }
+      .panel-title {
+        font-family: "Playfair Display", serif;
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--text);
+      }
+      .panel-close {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: var(--brand-pale);
+        border: none;
+        color: var(--muted);
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+
+      .qr-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 24px;
+      }
+      .qr-frame {
+        width: 164px;
+        height: 164px;
+        border: 2px solid var(--border);
+        border-radius: 16px;
+        overflow: hidden;
+        background: #fff;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .qr-frame img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        border-radius: 4px;
+      }
+      .qr-label {
+        font-size: 12.5px;
+        color: var(--muted);
+        font-weight: 500;
+      }
+
+      .panel-divider {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 18px;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 500;
+      }
+      .panel-divider::before,
+      .panel-divider::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+      }
+
+      .share-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      .share-btn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 16px 10px;
+        border-radius: var(--radius);
+        border: 1.5px solid var(--border);
+        background: var(--card);
+        cursor: pointer;
+        font-family: "Inter", sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text);
+        -webkit-tap-highlight-color: transparent;
+        transition:
+          background 0.12s,
+          transform 0.1s;
+        text-decoration: none;
+      }
+      .share-btn:active {
+        transform: scale(0.96);
+        background: var(--brand-pale);
+        border-color: var(--brand);
+      }
+      .share-btn i {
+        font-size: 26px;
+      }
+      .share-btn.whatsapp i {
+        color: #25d366;
+      }
+      .share-btn.native i {
+        color: var(--brand-dark);
+      }
+
+      /* ── iOS hint ── */
+      #ios-hint {
+        display: none;
+        position: fixed;
+        bottom: calc(env(safe-area-inset-bottom, 0px) + 16px);
+        left: 12px;
+        right: 12px;
+        background: #111;
+        color: #fff;
+        border-radius: var(--radius);
+        padding: 14px 40px 14px 16px;
+        font-size: 13px;
+        line-height: 1.5;
+        box-shadow: var(--shadow-md);
+        z-index: 98;
+        animation: slideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+      #ios-hint.visible {
+        display: block;
+      }
+      #ios-hint .hint-close {
+        position: absolute;
+        top: 10px;
+        right: 12px;
+        background: none;
+        border: none;
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 18px;
+        cursor: pointer;
+      }
+
+      @keyframes slideUp {
+        from {
+          transform: translateY(20px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      /* ── Scroll indicator ── */
+      .scroll-indicator {
+        position: fixed;
+        bottom: calc(env(safe-area-inset-bottom, 0px) + 18px);
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 40;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        pointer-events: none;
+        transition:
+          opacity 0.35s ease,
+          transform 0.35s ease;
+      }
+      .scroll-indicator.hidden {
+        opacity: 0;
+        transform: translateX(-50%) translateY(8px);
+      }
+      .scroll-indicator-pill {
+        background: rgba(255, 255, 255, 0.88);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid var(--border);
+        border-radius: 40px;
+        padding: 6px 14px 6px 12px;
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+      }
+      .scroll-indicator-pill span {
+        font-size: 11.5px;
+        font-weight: 600;
+        color: var(--muted);
+        letter-spacing: 0.02em;
+      }
+      .scroll-chevrons {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+      }
+      .scroll-chevrons i {
+        font-size: 9px;
+        color: var(--brand-dark);
+        line-height: 1.1;
+        animation: chevronBounce 1.6s ease-in-out infinite;
+      }
+      .scroll-chevrons i:nth-child(2) {
+        animation-delay: 0.18s;
+        opacity: 0.65;
+      }
+      .scroll-chevrons i:nth-child(3) {
+        animation-delay: 0.36s;
+        opacity: 0.35;
+      }
+      @keyframes chevronBounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(3px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <!-- Offline -->
+      <div id="offline-banner">
+        <i class="fa-solid fa-wifi-slash"></i>
+        You're offline — showing cached page
+      </div>
+
+      <!-- Install prompt -->
+      <div id="install-banner">
+        <img src="android-chrome-192x192.png" alt="" class="install-icon" />
+        <div class="install-text">
+          <strong>Social Drishti</strong>
+          <span>Add to Home Screen for quick access</span>
+        </div>
+        <button class="btn-install" id="btn-install-accept">Install</button>
+        <button
+          class="btn-dismiss"
+          id="btn-install-dismiss"
+          aria-label="Dismiss"
+        >
+          ×
+        </button>
+      </div>
+
+      <!-- Header -->
+      <div class="header">
+        <div class="brand-group">
+          <img src="sdlogo.svg" alt="Social Drishti" />
+          <span class="brand-name">Social Drishti</span>
+        </div>
+        <div class="header-actions">
+          <button
+            class="btn-header"
+            id="btn-save-contact-hdr"
+            aria-label="Save to Contact"
+            title="Save to Contact"
+          >
+            <i class="fa-solid fa-address-card"></i>
+          </button>
+          <button
+            class="btn-header"
+            id="btn-share-open"
+            aria-label="Share"
+            title="Share"
+          >
+            <i class="fa-solid fa-share-nodes"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Scrollable content -->
+      <div class="content">
+        <!-- ── PDF Big Buttons ── -->
+        <span class="section-label">Downloads</span>
+        <div class="pdf-buttons">
+          <a
+            class="pdf-btn"
+            href="https://drive.google.com/file/d/1iHmJrvNOm9zbXcMy-46W1vj2iaMSWQqX/view?usp=drive_link"
+            target="_blank"
+            rel="noopener"
+          >
+            <div class="pdf-btn-icon"><i class="fa-solid fa-file-pdf"></i></div>
+            <div class="pdf-btn-text">
+              <strong>Our Portfolio</strong>
+              <span>Work &amp; case studies</span>
+            </div>
+            <i class="fa-solid fa-arrow-up-right-from-square pdf-btn-arrow"></i>
+          </a>
+
+          <a
+            class="pdf-btn"
+            href="https://drive.google.com/file/d/1Ype4g6yRIaMYNJC4ZXPIgJnLJzY1Lzcv/view?usp=drive_link"
+            target="_blank"
+            rel="noopener"
+          >
+            <div class="pdf-btn-icon"><i class="fa-solid fa-globe"></i></div>
+            <div class="pdf-btn-text">
+              <strong>Website Services</strong>
+              <span>Full breakdown deck</span>
+            </div>
+            <i class="fa-solid fa-arrow-up-right-from-square pdf-btn-arrow"></i>
+          </a>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- ── Contact cards grid ── -->
+        <div class="grid">
+          <!-- WhatsApp — full, gold filled -->
+          <a
+            class="card card-full card-filled"
+            href="https://wa.me/919769699001?text=Hi%2C%20I%27d%20like%20to%20know%20more%20about%20Social%20Drishti"
+            target="_blank"
+            rel="noopener"
+          >
+            <i class="fa-brands fa-whatsapp" style="font-size: 26px"></i>
+            <span class="card-label">WhatsApp Us</span>
+          </a>
+
+          <!-- Call -->
+          <a class="card" href="tel:+919769699001">
+            <i class="fa-solid fa-phone"></i>
+            <span class="card-label">Call Us</span>
+          </a>
+
+          <!-- Email -->
+          <a class="card" href="mailto:info@socialdrishti.com">
+            <i class="fa-solid fa-envelope"></i>
+            <span class="card-label">Email Us</span>
+          </a>
+
+          <!-- Instagram -->
+          <a
+            class="card"
+            href="https://www.instagram.com/socialdrishti/"
+            target="_blank"
+            rel="noopener"
+          >
+            <i class="fa-brands fa-instagram" style="color: #e1306c"></i>
+            <span class="card-label">Instagram</span>
+          </a>
+
+          <!-- LinkedIn -->
+          <a
+            class="card"
+            href="https://www.linkedin.com/company/social-drishti/"
+            target="_blank"
+            rel="noopener"
+          >
+            <i class="fa-brands fa-linkedin" style="color: #0a66c2"></i>
+            <span class="card-label">LinkedIn</span>
+          </a>
+
+          <!-- Save to Contact — full, outline -->
+          <button
+            class="card card-full card-outline"
+            id="btn-save-contact-card"
+          >
+            <i class="fa-solid fa-user-plus" style="font-size: 22px"></i>
+            <span class="card-label">Save to Contact</span>
+          </button>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- ── Embedded Videos ── -->
+        <span class="section-label">Watch</span>
+        <div class="video-grid">
+          <!-- Landscape 16:9 — Celebrity work, no label intentionally -->
+          <div class="video-card video-landscape">
+            <div class="video-wrap">
+              <!-- Replace VIDEO_ID_CELEBRITY with your 16:9 celebrity video ID -->
+              <iframe
+                src="https://www.youtube.com/embed/VIDEO_ID_CELEBRITY?autoplay=1&mute=1&rel=0&modestbranding=1&playsinline=1&loop=1&playlist=VIDEO_ID_CELEBRITY"
+                title="Social Drishti"
+                allow="autoplay; encrypted-media; picture-in-picture"
+                allowfullscreen
+                loading="lazy"
+              ></iframe>
+            </div>
+          </div>
+          <!-- Portrait 9:16 — Shoots & Production -->
+          <div class="video-card video-portrait">
+            <div class="video-card-label">
+              <i class="fa-solid fa-camera"></i>
+              <span>Shoots &amp; Production</span>
+            </div>
+            <div class="video-wrap">
+              <!-- Replace VIDEO_ID_PORTRAIT with your 9:16 shoot video ID -->
+              <iframe
+                src="https://www.youtube.com/embed/VIDEO_ID_PORTRAIT?autoplay=1&mute=1&rel=0&modestbranding=1&playsinline=1&loop=1&playlist=VIDEO_ID_PORTRAIT"
+                title="Shoots & Production"
+                allow="autoplay; encrypted-media; picture-in-picture"
+                allowfullscreen
+                loading="lazy"
+              ></iframe>
+            </div>
+          </div>
+
+          <!-- 3:4 — Our Services -->
+          <div class="video-card video-services">
+            <div class="video-card-label">
+              <i class="fa-solid fa-layer-group"></i>
+              <span>Our Services</span>
+            </div>
+            <div class="video-wrap">
+              <!-- Replace VIDEO_ID_SERVICES with your 3:4 services video ID -->
+              <iframe
+                src="https://www.youtube.com/embed/VIDEO_ID_SERVICES?autoplay=1&mute=1&rel=0&modestbranding=1&playsinline=1&loop=1&playlist=VIDEO_ID_SERVICES"
+                title="Our Services"
+                allow="autoplay; encrypted-media; picture-in-picture"
+                allowfullscreen
+                loading="lazy"
+              ></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.content -->
+    </div>
+    <!-- /.page -->
+
+    <!-- Scroll indicator -->
+    <div class="scroll-indicator" id="scrollIndicator">
+      <div class="scroll-indicator-pill">
+        <div class="scroll-chevrons">
+          <i class="fa-solid fa-chevron-down"></i>
+          <i class="fa-solid fa-chevron-down"></i>
+          <i class="fa-solid fa-chevron-down"></i>
+        </div>
+        <span>Scroll for more</span>
+      </div>
+    </div>
+
+    <!-- ── Share bottom-sheet ── -->
+    <div id="share-backdrop"></div>
+    <div
+      id="share-panel"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Share Social Drishti"
+    >
+      <div class="panel-handle"></div>
+      <div class="panel-header">
+        <span class="panel-title">Share Social Drishti</span>
+        <button class="panel-close" id="btn-share-close" aria-label="Close">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="qr-wrap">
+        <div class="qr-frame">
+          <img
+            id="qr-img"
+            src=""
+            alt="QR code for this page"
+            width="144"
+            height="144"
+          />
+        </div>
+        <span class="qr-label" id="qr-label">Scan to open this page</span>
+      </div>
+
+      <div class="panel-divider">or share via</div>
+
+      <div class="share-actions">
+        <a
+          class="share-btn whatsapp"
+          id="share-whatsapp"
+          href="#"
+          target="_blank"
+          rel="noopener"
+        >
+          <i class="fa-brands fa-whatsapp"></i>
+          WhatsApp
+        </a>
+        <button class="share-btn native" id="btn-native-share">
+          <i class="fa-solid fa-share-from-square"></i>
+          <span>Share</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ── iOS hint ── -->
+    <div id="ios-hint">
+      <button class="hint-close" id="btn-ios-close" aria-label="Close">
+        ×
+      </button>
+      <strong
+        style="
+          font-family: &quot;Playfair Display&quot;, serif;
+          font-size: 14px;
+        "
+        >Install Social Drishti</strong
+      >
+      <p style="margin-top: 6px; opacity: 0.85">
+        Tap <strong>Share</strong>
+        <i class="fa-solid fa-arrow-up-from-bracket"></i> then
+        <strong>"Add to Home Screen"</strong>.
+      </p>
+    </div>
+
+    <script>
+      /* ── Scroll indicator ── */
+      (function () {
+        const indicator = document.getElementById("scrollIndicator");
+        const content = document.querySelector(".content");
+        if (!indicator || !content) return;
+
+        function checkScroll() {
+          const nearBottom =
+            content.scrollTop + content.clientHeight >=
+            content.scrollHeight - 40;
+          if (content.scrollTop > 30 || nearBottom) {
+            indicator.classList.add("hidden");
+          } else {
+            indicator.classList.remove("hidden");
+          }
+        }
+
+        content.addEventListener("scroll", checkScroll, { passive: true });
+        // Also hide if page itself scrolls (fallback)
+        window.addEventListener("scroll", checkScroll, { passive: true });
+      })();
+
+      /* ── Service Worker ── */
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", async () => {
+          try {
+            // Remember if a SW was already controlling this page BEFORE registration.
+            // If not, this is a first-ever install — clients.claim() will fire
+            // controllerchange but we must NOT reload (nothing changed for the user).
+            const hadController = !!navigator.serviceWorker.controller;
+            const reg = await navigator.serviceWorker.register("./sw.js");
+            reg.addEventListener("updatefound", () => {
+              const nw = reg.installing;
+              nw.addEventListener("statechange", () => {
+                if (
+                  nw.state === "installed" &&
+                  navigator.serviceWorker.controller
+                ) {
+                  nw.postMessage({ type: "SKIP_WAITING" });
+                }
+              });
+            });
+            // Only reload when an *update* takes over, not on first install.
+            navigator.serviceWorker.addEventListener("controllerchange", () => {
+              if (hadController) window.location.reload();
+            });
+          } catch (err) {
+            console.warn("SW:", err);
+          }
         });
-        // Only reload when an *update* takes over, not on first install.
-        navigator.serviceWorker.addEventListener('controllerchange', () => {
-          if (hadController) window.location.reload();
+      }
+
+      /* ── Offline ── */
+      const offlineBanner = document.getElementById("offline-banner");
+      const setOffline = (v) => offlineBanner.classList.toggle("visible", v);
+      window.addEventListener("online", () => setOffline(false));
+      window.addEventListener("offline", () => setOffline(true));
+      if (!navigator.onLine) setOffline(true);
+
+      /* ── Install prompt ── */
+      let deferredPrompt = null;
+      const installBanner = document.getElementById("install-banner");
+
+      window.addEventListener("beforeinstallprompt", (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        if (!sessionStorage.getItem("sd_install_dismissed")) {
+          setTimeout(() => installBanner.classList.add("visible"), 1200);
+        }
+      });
+
+      document
+        .getElementById("btn-install-accept")
+        .addEventListener("click", async () => {
+          installBanner.classList.remove("visible");
+          if (!deferredPrompt) return;
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          deferredPrompt = null;
+          if (outcome === "dismissed")
+            sessionStorage.setItem("sd_install_dismissed", "1");
         });
-      } catch (err) { console.warn('SW:', err); }
-    });
-  }
 
-  /* ── Offline ── */
-  const offlineBanner = document.getElementById('offline-banner');
-  const setOffline = v => offlineBanner.classList.toggle('visible', v);
-  window.addEventListener('online',  () => setOffline(false));
-  window.addEventListener('offline', () => setOffline(true));
-  if (!navigator.onLine) setOffline(true);
+      document
+        .getElementById("btn-install-dismiss")
+        .addEventListener("click", () => {
+          installBanner.classList.remove("visible");
+          sessionStorage.setItem("sd_install_dismissed", "1");
+        });
 
-  /* ── Install prompt ── */
-  let deferredPrompt = null;
-  const installBanner = document.getElementById('install-banner');
+      window.addEventListener("appinstalled", () => {
+        installBanner.classList.remove("visible");
+        deferredPrompt = null;
+      });
 
-  window.addEventListener('beforeinstallprompt', e => {
-    e.preventDefault();
-    deferredPrompt = e;
-    if (!sessionStorage.getItem('sd_install_dismissed')) {
-      setTimeout(() => installBanner.classList.add('visible'), 1200);
-    }
-  });
+      /* ── Save to Contact (vCard) ── */
+      function downloadVCard() {
+        const vcard = [
+          "BEGIN:VCARD",
+          "VERSION:3.0",
+          "FN:Social Drishti",
+          "ORG:Social Drishti",
+          "TEL;TYPE=CELL,PRE:+919769699001",
+          "EMAIL;TYPE=WORK:info@socialdrishti.com",
+          "URL:https://socialdrishti.com",
+          "X-SOCIALPROFILE;TYPE=instagram:https://www.instagram.com/socialdrishti/",
+          "X-SOCIALPROFILE;TYPE=linkedin:https://www.linkedin.com/company/social-drishti/",
+          "END:VCARD",
+        ].join("\r\n");
 
-  document.getElementById('btn-install-accept').addEventListener('click', async () => {
-    installBanner.classList.remove('visible');
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    deferredPrompt = null;
-    if (outcome === 'dismissed') sessionStorage.setItem('sd_install_dismissed', '1');
-  });
+        const blob = new Blob([vcard], { type: "text/vcard;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "social-drishti.vcf";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+      }
 
-  document.getElementById('btn-install-dismiss').addEventListener('click', () => {
-    installBanner.classList.remove('visible');
-    sessionStorage.setItem('sd_install_dismissed', '1');
-  });
+      document
+        .getElementById("btn-save-contact-hdr")
+        .addEventListener("click", downloadVCard);
+      document
+        .getElementById("btn-save-contact-card")
+        .addEventListener("click", downloadVCard);
 
-  window.addEventListener('appinstalled', () => {
-    installBanner.classList.remove('visible');
-    deferredPrompt = null;
-  });
+      /* ── Share panel ── */
+      const backdrop = document.getElementById("share-backdrop");
+      const sharePanel = document.getElementById("share-panel");
+      const openShare = () => {
+        backdrop.classList.add("open");
+        sharePanel.classList.add("open");
+      };
+      const closeShare = () => {
+        backdrop.classList.remove("open");
+        sharePanel.classList.remove("open");
+      };
 
-  /* ── Save to Contact (vCard) ── */
-  function downloadVCard() {
-    const vcard = [
-      'BEGIN:VCARD',
-      'VERSION:3.0',
-      'FN:Social Drishti',
-      'ORG:Social Drishti',
-      'TEL;TYPE=CELL,PRE:+919769699001',
-      'EMAIL;TYPE=WORK:info@socialdrishti.com',
-      'URL:https://socialdrishti.com',
-      'X-SOCIALPROFILE;TYPE=instagram:https://www.instagram.com/socialdrishti/',
-      'X-SOCIALPROFILE;TYPE=linkedin:https://www.linkedin.com/company/social-drishti/',
-      'END:VCARD'
-    ].join('\r\n');
+      document
+        .getElementById("btn-share-open")
+        .addEventListener("click", openShare);
+      document
+        .getElementById("btn-share-close")
+        .addEventListener("click", closeShare);
+      backdrop.addEventListener("click", closeShare);
 
-    const blob = new Blob([vcard], { type: 'text/vcard;charset=utf-8' });
-    const url  = URL.createObjectURL(blob);
-    const a    = document.createElement('a');
-    a.href = url; a.download = 'social-drishti.vcf';
-    document.body.appendChild(a); a.click();
-    document.body.removeChild(a);
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-  }
+      let ty0 = 0;
+      sharePanel.addEventListener(
+        "touchstart",
+        (e) => {
+          ty0 = e.touches[0].clientY;
+        },
+        { passive: true },
+      );
+      sharePanel.addEventListener(
+        "touchend",
+        (e) => {
+          if (e.changedTouches[0].clientY - ty0 > 60) closeShare();
+        },
+        { passive: true },
+      );
 
-  document.getElementById('btn-save-contact-hdr').addEventListener('click', downloadVCard);
-  document.getElementById('btn-save-contact-card').addEventListener('click', downloadVCard);
+      /* ── Dynamic current URL for share panel ── */
+      const currentUrl = window.location.href;
+      const currentHost = window.location.hostname || "this page";
 
-  /* ── Share panel ── */
-  const backdrop   = document.getElementById('share-backdrop');
-  const sharePanel = document.getElementById('share-panel');
-  const openShare  = () => { backdrop.classList.add('open'); sharePanel.classList.add('open'); };
-  const closeShare = () => { backdrop.classList.remove('open'); sharePanel.classList.remove('open'); };
+      // QR code — generated from current URL
+      const qrImg = document.getElementById("qr-img");
+      const qrLabel = document.getElementById("qr-label");
+      if (qrImg) {
+        qrImg.src =
+          "https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=0&color=111111&bgcolor=ffffff&data=" +
+          encodeURIComponent(currentUrl);
+        qrImg.alt = "QR code — " + currentHost;
+      }
+      if (qrLabel) qrLabel.textContent = "Scan to open " + currentHost;
 
-  document.getElementById('btn-share-open').addEventListener('click', openShare);
-  document.getElementById('btn-share-close').addEventListener('click', closeShare);
-  backdrop.addEventListener('click', closeShare);
+      // WhatsApp — current URL
+      const waBtn = document.getElementById("share-whatsapp");
+      if (waBtn)
+        waBtn.href =
+          "https://wa.me/?text=" +
+          encodeURIComponent("Check out Social Drishti\n" + currentUrl);
 
-  let ty0 = 0;
-  sharePanel.addEventListener('touchstart', e => { ty0 = e.touches[0].clientY; }, { passive: true });
-  sharePanel.addEventListener('touchend',   e => { if (e.changedTouches[0].clientY - ty0 > 60) closeShare(); }, { passive: true });
+      /* ── Native share / copy fallback ── */
+      const btnNative = document.getElementById("btn-native-share");
+      const nativeIcon = btnNative.querySelector("i");
+      const nativeText = btnNative.querySelector("span");
 
-  /* ── Dynamic current URL for share panel ── */
-  const currentUrl = window.location.href;
-  const currentHost = window.location.hostname || 'this page';
+      btnNative.addEventListener("click", async () => {
+        if (navigator.share) {
+          try {
+            await navigator.share({ title: "Social Drishti", url: currentUrl });
+          } catch {}
+        } else {
+          try {
+            await navigator.clipboard.writeText(currentUrl);
+            nativeIcon.className = "fa-solid fa-check";
+            nativeText.textContent = "Copied!";
+            setTimeout(() => {
+              nativeIcon.className = "fa-solid fa-share-from-square";
+              nativeText.textContent = "Share";
+            }, 2200);
+          } catch {}
+        }
+      });
 
-  // QR code — generated from current URL
-  const qrImg   = document.getElementById('qr-img');
-  const qrLabel = document.getElementById('qr-label');
-  if (qrImg) {
-    qrImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&margin=0&color=111111&bgcolor=ffffff&data=' + encodeURIComponent(currentUrl);
-    qrImg.alt = 'QR code — ' + currentHost;
-  }
-  if (qrLabel) qrLabel.textContent = 'Scan to open ' + currentHost;
-
-  // WhatsApp — current URL
-  const waBtn = document.getElementById('share-whatsapp');
-  if (waBtn) waBtn.href = 'https://wa.me/?text=' + encodeURIComponent('Check out Social Drishti\n' + currentUrl);
-
-  /* ── Native share / copy fallback ── */
-  const btnNative  = document.getElementById('btn-native-share');
-  const nativeIcon = btnNative.querySelector('i');
-  const nativeText = btnNative.querySelector('span');
-
-  btnNative.addEventListener('click', async () => {
-    if (navigator.share) {
-      try { await navigator.share({ title: 'Social Drishti', url: currentUrl }); } catch {}
-    } else {
-      try {
-        await navigator.clipboard.writeText(currentUrl);
-        nativeIcon.className = 'fa-solid fa-check';
-        nativeText.textContent = 'Copied!';
-        setTimeout(() => { nativeIcon.className = 'fa-solid fa-share-from-square'; nativeText.textContent = 'Share'; }, 2200);
-      } catch {}
-    }
-  });
-
-  /* ── iOS install hint ── */
-  const iosHint = document.getElementById('ios-hint');
-  if (
-    /iphone|ipad|ipod/i.test(navigator.userAgent) &&
-    !window.matchMedia('(display-mode: standalone)').matches &&
-    !navigator.standalone &&
-    !sessionStorage.getItem('sd_ios_hint')
-  ) {
-    setTimeout(() => iosHint.classList.add('visible'), 2500);
-  }
-  document.getElementById('btn-ios-close').addEventListener('click', () => {
-    iosHint.classList.remove('visible');
-    sessionStorage.setItem('sd_ios_hint', '1');
-  });
-</script>
-</body>
+      /* ── iOS install hint ── */
+      const iosHint = document.getElementById("ios-hint");
+      if (
+        /iphone|ipad|ipod/i.test(navigator.userAgent) &&
+        !window.matchMedia("(display-mode: standalone)").matches &&
+        !navigator.standalone &&
+        !sessionStorage.getItem("sd_ios_hint")
+      ) {
+        setTimeout(() => iosHint.classList.add("visible"), 2500);
+      }
+      document.getElementById("btn-ios-close").addEventListener("click", () => {
+        iosHint.classList.remove("visible");
+        sessionStorage.setItem("sd_ios_hint", "1");
+      });
+    </script>
+  </body>
 </html>
