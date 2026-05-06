@@ -713,6 +713,10 @@
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', async () => {
       try {
+        // Remember if a SW was already controlling this page BEFORE registration.
+        // If not, this is a first-ever install — clients.claim() will fire
+        // controllerchange but we must NOT reload (nothing changed for the user).
+        const hadController = !!navigator.serviceWorker.controller;
         const reg = await navigator.serviceWorker.register('./sw.js');
         reg.addEventListener('updatefound', () => {
           const nw = reg.installing;
@@ -722,7 +726,10 @@
             }
           });
         });
-        navigator.serviceWorker.addEventListener('controllerchange', () => window.location.reload());
+        // Only reload when an *update* takes over, not on first install.
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          if (hadController) window.location.reload();
+        });
       } catch (err) { console.warn('SW:', err); }
     });
   }
