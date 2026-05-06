@@ -61,16 +61,18 @@
 
       :root {
         --brand: #f9ac1b;
-        --brand-dark: #d9900e;
-        --brand-pale: #fef4dc;
-        --border: #ede9df;
-        --bg: #faf9f6;
-        --card: #ffffff;
+        --brand-dim: rgba(249, 172, 27, 0.10);
+        --stone: #b8b5af;
+        --bg: #f7f6f4;
+        --surface: #ffffff;
+        --surface-2: #f2f1ef;
+        --border: #b8b5af;
+        --border-brand: #f9ac1b;
         --text: #111111;
-        --muted: #7a6a50;
+        --muted: #b8b5af;
         --radius: 14px;
-        --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.07);
-        --shadow-md: 0 6px 28px rgba(0, 0, 0, 0.15);
+        --shadow-sm: 0 1px 0 0 #b8b5af;
+        --shadow-md: 0 4px 24px rgba(0, 0, 0, 0.10);
       }
 
       html {
@@ -186,9 +188,9 @@
         align-items: center;
         padding: 10px 16px;
         border-bottom: 1px solid var(--border);
-        background: rgba(255, 255, 255, 0.92);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
+        background: rgba(247, 246, 244, 0.96);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
         gap: 10px;
       }
       .brand-group {
@@ -221,9 +223,9 @@
         width: 40px;
         height: 40px;
         border-radius: 50%;
-        background: var(--brand-pale);
+        background: var(--surface-2);
         border: 1.5px solid var(--border);
-        color: var(--brand-dark);
+        color: #111111;
         font-size: 15px;
         display: flex;
         align-items: center;
@@ -237,7 +239,7 @@
       }
       .btn-header:active {
         background: var(--brand);
-        color: #111;
+        color: #111111;
         transform: scale(0.92);
       }
 
@@ -254,9 +256,9 @@
       .section-label {
         font-size: 10px;
         font-weight: 700;
-        letter-spacing: 0.12em;
+        letter-spacing: 0.14em;
         text-transform: uppercase;
-        color: var(--muted);
+        color: var(--stone);
         padding: 4px 2px 0;
       }
 
@@ -273,14 +275,14 @@
         align-items: flex-start;
         gap: 10px;
         padding: 18px 16px;
-        background: var(--card);
-        border: 1.5px solid var(--brand);
+        background: var(--surface);
+        border: 1.5px solid var(--border);
         border-radius: var(--radius);
         text-decoration: none;
         color: var(--text);
         cursor: pointer;
         -webkit-tap-highlight-color: transparent;
-        box-shadow: var(--shadow-sm);
+        box-shadow: none;
         transition:
           background 0.12s,
           transform 0.1s,
@@ -292,7 +294,7 @@
         animation-delay: 0.09s;
       }
       .pdf-btn:active {
-        background: var(--brand-pale);
+        background: var(--brand-dim);
         transform: scale(0.97);
         box-shadow: none;
       }
@@ -300,12 +302,12 @@
         width: 40px;
         height: 40px;
         border-radius: 10px;
-        background: var(--brand-pale);
+        background: var(--surface-2);
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 18px;
-        color: var(--brand-dark);
+        color: #111111;
         flex-shrink: 0;
       }
       .pdf-btn-text {
@@ -314,7 +316,7 @@
         gap: 3px;
       }
       .pdf-btn-text strong {
-        font-size: 13px;
+        font-size: 14px;
         font-weight: 700;
         line-height: 1.25;
       }
@@ -327,8 +329,8 @@
         margin-top: auto;
         align-self: flex-end;
         font-size: 12px;
-        color: var(--brand-dark);
-        opacity: 0.7;
+        color: var(--stone);
+        opacity: 1;
       }
 
       /* ── Divider ── */
@@ -352,14 +354,14 @@
         justify-content: center;
         gap: 7px;
         padding: 18px 10px;
-        background: var(--card);
+        background: var(--surface);
         border: 1.5px solid var(--border);
         border-radius: var(--radius);
         text-decoration: none;
         color: var(--text);
         cursor: pointer;
         -webkit-tap-highlight-color: transparent;
-        box-shadow: var(--shadow-sm);
+        box-shadow: none;
         transition:
           background 0.12s,
           border-color 0.12s,
@@ -370,30 +372,21 @@
         animation: cardIn 0.4s ease forwards;
       }
       .card::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        border-radius: inherit;
-        background: linear-gradient(
-          135deg,
-          rgba(249, 172, 27, 0.05) 0%,
-          transparent 60%
-        );
-        pointer-events: none;
+        display: none;
       }
       .card:active {
-        background: var(--brand-pale);
+        background: var(--brand-dim);
         border-color: var(--brand);
         transform: scale(0.97);
         box-shadow: none;
       }
       .card i {
         font-size: 22px;
-        color: var(--brand-dark);
+        color: #111111;
         line-height: 1;
       }
       .card-label {
-        font-size: 12.5px;
+        font-size: 13px;
         font-weight: 600;
         text-align: center;
         line-height: 1.3;
@@ -404,40 +397,36 @@
       }
 
       .card-filled {
-        background: linear-gradient(135deg, #f9ac1b 0%, #f0a010 100%);
-        border-color: transparent;
-        box-shadow: 0 4px 20px rgba(249, 172, 27, 0.38);
+        background: var(--brand);
+        border-color: var(--brand);
+        box-shadow: none;
       }
       .card-filled::before {
-        background: linear-gradient(
-          135deg,
-          rgba(255, 255, 255, 0.15) 0%,
-          transparent 50%
-        );
+        display: none;
       }
       .card-filled i,
       .card-filled .card-label {
         color: #111;
       }
       .card-filled:active {
-        background: var(--brand-dark);
+        background: #e09800;
       }
 
       .card-outline {
         background: transparent;
-        border: 1.5px solid #111;
+        border: 1.5px solid #111111;
         box-shadow: none;
       }
       .card-outline i {
-        color: #111;
+        color: #111111;
       }
       .card-outline:active {
-        background: #111;
-        border-color: #111;
+        background: #111111;
+        border-color: #111111;
       }
       .card-outline:active i,
       .card-outline:active .card-label {
-        color: #fff;
+        color: #ffffff;
       }
 
       /* stagger */
@@ -499,11 +488,11 @@
       }
 
       .video-card {
-        background: var(--card);
+        background: var(--surface);
         border: 1.5px solid var(--border);
         border-radius: var(--radius);
         overflow: hidden;
-        box-shadow: var(--shadow-sm);
+        box-shadow: none;
       }
 
       .video-card-label {
@@ -515,7 +504,7 @@
       }
       .video-card-label i {
         font-size: 14px;
-        color: var(--brand-dark);
+        color: #111111;
       }
       .video-card-label span {
         font-size: 12px;
@@ -569,13 +558,14 @@
         bottom: 0;
         left: 0;
         right: 0;
-        background: var(--card);
+        background: var(--surface);
         border-radius: 22px 22px 0 0;
+        border-top: 1.5px solid var(--border);
         padding: 0 20px calc(env(safe-area-inset-bottom, 0px) + 28px);
         z-index: 101;
         transform: translateY(100%);
         transition: transform 0.38s cubic-bezier(0.34, 1.38, 0.64, 1);
-        box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.18);
+        box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.10);
       }
       #share-panel.open {
         transform: translateY(0);
@@ -584,7 +574,7 @@
       .panel-handle {
         width: 40px;
         height: 4px;
-        background: var(--border);
+        background: #b8b5af;
         border-radius: 4px;
         margin: 14px auto 20px;
       }
@@ -604,9 +594,9 @@
         width: 32px;
         height: 32px;
         border-radius: 50%;
-        background: var(--brand-pale);
-        border: none;
-        color: var(--muted);
+        background: var(--surface-2);
+        border: 1px solid var(--border);
+        color: #111111;
         font-size: 14px;
         display: flex;
         align-items: center;
@@ -676,7 +666,7 @@
         padding: 16px 10px;
         border-radius: var(--radius);
         border: 1.5px solid var(--border);
-        background: var(--card);
+        background: var(--surface);
         cursor: pointer;
         font-family: "Inter", sans-serif;
         font-size: 13px;
@@ -690,7 +680,7 @@
       }
       .share-btn:active {
         transform: scale(0.96);
-        background: var(--brand-pale);
+        background: var(--brand-dim);
         border-color: var(--brand);
       }
       .share-btn i {
@@ -700,7 +690,7 @@
         color: #25d366;
       }
       .share-btn.native i {
-        color: var(--brand-dark);
+        color: var(--brand);
       }
 
       /* ── iOS hint ── */
@@ -766,7 +756,7 @@
         transform: translateX(-50%) translateY(8px);
       }
       .scroll-indicator-pill {
-        background: rgba(255, 255, 255, 0.88);
+        background: rgba(255, 255, 255, 0.96);
         backdrop-filter: blur(8px);
         -webkit-backdrop-filter: blur(8px);
         border: 1px solid var(--border);
@@ -791,7 +781,7 @@
       }
       .scroll-chevrons i {
         font-size: 9px;
-        color: var(--brand-dark);
+        color: var(--brand);
         line-height: 1.1;
         animation: chevronBounce 1.6s ease-in-out infinite;
       }
@@ -852,7 +842,7 @@
             aria-label="Save to Contact"
             title="Save to Contact"
           >
-            <i class="fa-solid fa-address-card"></i>
+            <i class="fa-solid fa-id-card"></i>
           </button>
           <button
             class="btn-header"
@@ -876,7 +866,7 @@
             target="_blank"
             rel="noopener"
           >
-            <div class="pdf-btn-icon"><i class="fa-solid fa-file-pdf"></i></div>
+            <div class="pdf-btn-icon"><i class="fa-solid fa-book-open"></i></div>
             <div class="pdf-btn-text">
               <strong>Our Portfolio</strong>
               <span>Work &amp; case studies</span>
@@ -890,7 +880,7 @@
             target="_blank"
             rel="noopener"
           >
-            <div class="pdf-btn-icon"><i class="fa-solid fa-globe"></i></div>
+            <div class="pdf-btn-icon"><i class="fa-solid fa-code"></i></div>
             <div class="pdf-btn-text">
               <strong>Website Services</strong>
               <span>Full breakdown deck</span>
@@ -922,7 +912,7 @@
 
           <!-- Email -->
           <a class="card" href="mailto:info@socialdrishti.com">
-            <i class="fa-solid fa-envelope"></i>
+            <i class="fa-solid fa-paper-plane"></i>
             <span class="card-label">Email Us</span>
           </a>
 
@@ -933,7 +923,7 @@
             target="_blank"
             rel="noopener"
           >
-            <i class="fa-brands fa-instagram" style="color: #e1306c"></i>
+            <i class="fa-brands fa-instagram" style="color:#c13584"></i>
             <span class="card-label">Instagram</span>
           </a>
 
@@ -953,7 +943,7 @@
             class="card card-full card-outline"
             id="btn-save-contact-card"
           >
-            <i class="fa-solid fa-user-plus" style="font-size: 22px"></i>
+            <i class="fa-solid fa-id-card" style="font-size: 22px"></i>
             <span class="card-label">Save to Contact</span>
           </button>
         </div>
