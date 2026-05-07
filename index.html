@@ -485,26 +485,34 @@
       }
 
       /* ── Video section ── */
+      /* Mobile: single column, landscape on top, portrait below */
       .video-grid {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr;
         gap: 10px;
         opacity: 0;
         animation: cardIn 0.4s ease 0.4s forwards;
       }
-      /* Landscape spans full width on mobile */
-      .video-landscape {
-        grid-column: 1 / -1;
-      }
+      .video-landscape { order: 1; }
+      .video-portrait  { order: 2; }
 
-      /* Desktop: 3 proportional columns — same visual height */
-      @media (min-width: 900px) {
+      /* Desktop: side by side, same height */
+      @media (min-width: 700px) {
         .video-grid {
-          grid-template-columns: 9fr 12fr 16fr;
-          align-items: start;
+          grid-template-columns: 9fr 16fr;
+          align-items: stretch;
         }
-        .video-landscape {
-          grid-column: auto;
+        .video-landscape { order: 2; }
+        .video-portrait  { order: 1; display: flex; flex-direction: column; }
+        /* Landscape sets row height via aspect-ratio */
+        .video-landscape .video-wrap {
+          padding-top: 0 !important;
+          aspect-ratio: 16 / 9;
+        }
+        /* Portrait fills the same height */
+        .video-portrait .video-wrap {
+          padding-top: 0 !important;
+          flex: 1;
         }
       }
 
@@ -513,6 +521,8 @@
         border: none;
         overflow: hidden;
         clip-path: polygon(0 0, calc(100% - var(--cut)) 0, 100% var(--cut), 100% 100%, var(--cut) 100%, 0 calc(100% - var(--cut)));
+        display: flex;
+        flex-direction: column;
       }
 
       .video-card-label {
@@ -540,6 +550,9 @@
       .video-wrap {
         position: relative;
         background: #111;
+        display: block;
+        text-decoration: none;
+        overflow: hidden;
       }
       .video-wrap iframe {
         position: absolute;
@@ -548,15 +561,46 @@
         height: 100%;
         border: none;
       }
+      /* Thumbnail-link variant */
+      .video-thumb {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.35s ease;
+      }
+      .video-wrap:hover .video-thumb {
+        transform: scale(1.04);
+      }
+      .video-play-btn {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(0,0,0,0.28);
+        transition: background 0.25s;
+      }
+      .video-wrap:hover .video-play-btn {
+        background: rgba(0,0,0,0.18);
+      }
+      .video-play-btn svg {
+        width: 52px;
+        height: 52px;
+        filter: drop-shadow(0 2px 8px rgba(0,0,0,0.55));
+        transition: transform 0.25s;
+      }
+      .video-wrap:hover .video-play-btn svg {
+        transform: scale(1.12);
+      }
       .video-portrait .video-wrap {
         padding-top: 177.78%;
-      } /* 9:16  */
-      .video-services .video-wrap {
-        padding-top: 133.33%;
-      } /* 3:4   */
+      } /* 9:16 — mobile default */
       .video-landscape .video-wrap {
         padding-top: 56.25%;
-      } /* 16:9  */
+      } /* 16:9 — mobile default */
 
       /* ── Share bottom sheet ── */
       #share-backdrop {
@@ -981,53 +1025,27 @@
         <!-- ── Embedded Videos ── -->
         <span class="section-label">Watch</span>
         <div class="video-grid">
-          <!-- Landscape 16:9 — Celebrity work, no label intentionally -->
-          <div class="video-card video-landscape">
-            <div class="video-wrap">
-              <!-- Replace VIDEO_ID_CELEBRITY with your 16:9 celebrity video ID -->
-              <iframe
-                src="https://www.youtube.com/embed/VIDEO_ID_CELEBRITY?autoplay=1&mute=1&rel=0&modestbranding=1&playsinline=1&loop=1&playlist=VIDEO_ID_CELEBRITY"
-                title="Social Drishti"
-                allow="autoplay; encrypted-media; picture-in-picture"
-                allowfullscreen
-                loading="lazy"
-              ></iframe>
-            </div>
-          </div>
           <!-- Portrait 9:16 — Shoots & Production -->
           <div class="video-card video-portrait">
             <div class="video-card-label">
               <i class="fa-solid fa-camera"></i>
               <span>Shoots &amp; Production</span>
             </div>
-            <div class="video-wrap">
-              <!-- Replace VIDEO_ID_PORTRAIT with your 9:16 shoot video ID -->
-              <iframe
-                src="https://www.youtube.com/embed/VIDEO_ID_PORTRAIT?autoplay=1&mute=1&rel=0&modestbranding=1&playsinline=1&loop=1&playlist=VIDEO_ID_PORTRAIT"
-                title="Shoots & Production"
-                allow="autoplay; encrypted-media; picture-in-picture"
-                allowfullscreen
-                loading="lazy"
-              ></iframe>
-            </div>
+            <a class="video-wrap" href="https://www.youtube.com/shorts/1gCOkxqRmZk" target="_blank" rel="noopener" aria-label="Watch Shoots & Production on YouTube">
+              <img class="video-thumb" src="https://img.youtube.com/vi/1gCOkxqRmZk/hqdefault.jpg" alt="Shoots & Production" loading="lazy" />
+              <div class="video-play-btn">
+                <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg"><rect width="68" height="48" rx="14" fill="#f9ac1b"/><polygon points="26,14 26,34 48,24" fill="#111111"/></svg>
+              </div>
+            </a>
           </div>
-
-          <!-- 3:4 — Our Services -->
-          <div class="video-card video-services">
-            <div class="video-card-label">
-              <i class="fa-solid fa-layer-group"></i>
-              <span>Our Services</span>
-            </div>
-            <div class="video-wrap">
-              <!-- Replace VIDEO_ID_SERVICES with your 3:4 services video ID -->
-              <iframe
-                src="https://www.youtube.com/embed/VIDEO_ID_SERVICES?autoplay=1&mute=1&rel=0&modestbranding=1&playsinline=1&loop=1&playlist=VIDEO_ID_SERVICES"
-                title="Our Services"
-                allow="autoplay; encrypted-media; picture-in-picture"
-                allowfullscreen
-                loading="lazy"
-              ></iframe>
-            </div>
+          <!-- Landscape 16:9 — Celebrity work -->
+          <div class="video-card video-landscape">
+            <a class="video-wrap" href="https://www.youtube.com/watch?v=xSZ-UHG9mNs" target="_blank" rel="noopener" aria-label="Watch Social Drishti reel on YouTube">
+              <img class="video-thumb" src="https://img.youtube.com/vi/xSZ-UHG9mNs/maxresdefault.jpg" alt="Social Drishti" loading="lazy" />
+              <div class="video-play-btn">
+                <svg viewBox="0 0 68 48" xmlns="http://www.w3.org/2000/svg"><rect width="68" height="48" rx="14" fill="#f9ac1b"/><polygon points="26,14 26,34 48,24" fill="#111111"/></svg>
+              </div>
+            </a>
           </div>
         </div>
       </div>
