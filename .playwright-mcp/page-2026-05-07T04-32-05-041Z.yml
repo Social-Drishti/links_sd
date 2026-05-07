@@ -1,0 +1,14 @@
+- generic "YouTube Video Player" [ref=e3]:
+  - alert [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - img
+      - generic [ref=e7]:
+        - link "Watch video on YouTube" [ref=e10] [cursor=pointer]:
+          - /url: https://www.youtube.com/?source_ve_path=MTc4NDI0
+        - generic [ref=e12]:
+          - text: Error 153
+          - text: Video player configuration error
+    - link "Visit YouTube to search for more videos" [ref=e13] [cursor=pointer]:
+      - /url: https://www.youtube.com
+      - img
