@@ -8,6 +8,17 @@
     />
     <title>Social Drishti</title>
 
+    <!-- OneSignal Push Notifications -->
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script>
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+      OneSignalDeferred.push(async function(OneSignal) {
+        await OneSignal.init({
+          appId: "4495a0cf-03c6-44be-ae0e-f0e777a296c5",
+        });
+      });
+    </script>
+
     <!-- Google tag (gtag.js) -->
     <script
       async
