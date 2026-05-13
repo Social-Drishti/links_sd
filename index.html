@@ -8,17 +8,6 @@
     />
     <title>Social Drishti</title>
 
-    <!-- OneSignal Push Notifications -->
-    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-    <script>
-      window.OneSignalDeferred = window.OneSignalDeferred || [];
-      OneSignalDeferred.push(async function(OneSignal) {
-        await OneSignal.init({
-          appId: "4495a0cf-03c6-44be-ae0e-f0e777a296c5",
-        });
-      });
-    </script>
-
     <!-- Google tag (gtag.js) -->
     <script
       async
@@ -1188,8 +1177,12 @@
               });
             });
             // Only reload when an *update* takes over, not on first install.
+            // Guard with sessionStorage to prevent infinite reload loops.
             navigator.serviceWorker.addEventListener("controllerchange", () => {
-              if (hadController) window.location.reload();
+              if (hadController && !sessionStorage.getItem("sw-reloading")) {
+                sessionStorage.setItem("sw-reloading", "1");
+                window.location.reload();
+              }
             });
           } catch (err) {
             console.warn("SW:", err);
@@ -1367,6 +1360,60 @@
       document.getElementById("btn-ios-close").addEventListener("click", () => {
         iosHint.classList.remove("visible");
         sessionStorage.setItem("sd_ios_hint", "1");
+      });
+    </script>
+
+    <!-- ── Web Push Subscription ── -->
+    <script>
+      /* =======================================================
+         Web Push — VAPID subscription
+         1. Generate VAPID keys:  cd php_backend && php vapid-gen.php
+         2. Replace PUSH_VAPID_PUBLIC with the generated public key
+         3. Replace PUSH_BACKEND_URL with your VPS URL
+         ======================================================= */
+      const PUSH_VAPID_PUBLIC = 'YOUR_VAPID_PUBLIC_KEY'; // <-- replace after generating
+      const PUSH_BACKEND_URL  = 'https://your-vps-domain.com/push/'; // <-- replace with VPS URL
+
+      function urlBase64ToUint8Array(base64String) {
+        const padding = '='.repeat((4 - base64String.length % 4) % 4);
+        const base64  = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+        const raw     = atob(base64);
+        return Uint8Array.from([...raw].map(c => c.charCodeAt(0)));
+      }
+
+      async function subscribeToPush() {
+        if (!('serviceWorker' in navigator) || !('PushManager' in window)) return;
+        if (PUSH_VAPID_PUBLIC === 'YOUR_VAPID_PUBLIC_KEY') return; // not configured yet
+        try {
+          const reg = await navigator.serviceWorker.ready;
+          let sub = await reg.pushManager.getSubscription();
+          if (!sub) {
+            sub = await reg.pushManager.subscribe({
+              userVisibleOnly: true,
+              applicationServerKey: urlBase64ToUint8Array(PUSH_VAPID_PUBLIC),
+            });
+          }
+          // Send subscription to backend
+          await fetch(PUSH_BACKEND_URL + '?action=subscribe', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(sub),
+          });
+        } catch (err) {
+          console.warn('Push subscription failed:', err);
+        }
+      }
+
+      // Ask for permission after a short delay (better UX than immediate prompt)
+      window.addEventListener('load', () => {
+        setTimeout(async () => {
+          if (Notification.permission === 'default') {
+            const perm = await Notification.requestPermission();
+            if (perm === 'granted') subscribeToPush();
+          } else if (Notification.permission === 'granted') {
+            subscribeToPush();
+          }
+        }, 4000);
       });
     </script>
   </body>
